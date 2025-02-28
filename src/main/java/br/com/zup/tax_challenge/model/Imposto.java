@@ -1,13 +1,12 @@
 package br.com.zup.tax_challenge.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Entity
 @Data
 @Table(name = "impostos")
-public class imposto {
+public class Imposto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,7 +20,7 @@ public class imposto {
     @Column(nullable = false)
     private Double aliquota;
 
-    public imposto() {
+    public Imposto() {
     }
 
     public Long getId() {
