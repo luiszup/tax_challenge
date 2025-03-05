@@ -28,4 +28,9 @@ public class TipoImpostoServiceImpl implements TipoImpostoService{
         return repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Imposto não encontrado"));
     }
+
+    @Override
+    public void deleteTipoImposto(Long id) {
+        repository.deleteById(id);
+    }
 }
