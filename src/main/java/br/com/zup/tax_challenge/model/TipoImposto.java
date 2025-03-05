@@ -5,8 +5,8 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "impostos")
-public class Imposto {
+@Table(name = "tipo_impostos")
+public class TipoImposto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,12 +20,12 @@ public class Imposto {
     @Column(nullable = false)
     private Double aliquota;
 
-    public Imposto(String nome, String descricao, Double aliquota) {
+    public TipoImposto(String nome, String descricao, Double aliquota) {
         this.nome = nome;
         this.descricao = descricao;
         this.aliquota = aliquota;
     }
 
-    public Imposto() {
+    public TipoImposto() {
     }
 }
