@@ -17,4 +17,15 @@ public class TipoImpostoServiceImpl implements TipoImpostoService{
     public TipoImposto saveTipoImposto(TipoImposto tipoImposto) {
         return repository.save(tipoImposto);
     }
+
+    @Override
+    public List<TipoImposto> listAll() {
+        return repository.findAll();
+    }
+
+    @Override
+    public TipoImposto findTipoImposto(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Imposto não encontrado"));
+    }
 }
