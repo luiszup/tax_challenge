@@ -2,6 +2,7 @@ package br.com.zup.tax_challenge.controller;
 
 import br.com.zup.tax_challenge.model.TipoImposto;
 import br.com.zup.tax_challenge.service.TipoImpostoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,6 +13,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/tipos")
 public class ImpostoController {
+
+    @Autowired
     private TipoImpostoService tipoImpostoService;
 
     public ImpostoController(TipoImpostoService tipoImpostoService) {
