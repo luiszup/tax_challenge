@@ -37,4 +37,11 @@ public class ImpostoController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Void> deleteTipoImposto(@PathVariable Long id) {
+        tipoImpostoService.deleteTipoImposto(id);
+        return ResponseEntity.noContent().build();
+    }
 }
