@@ -8,4 +8,7 @@ public class CalculateResponseDTO {
     private Double valorBase;
     private Double valorImposto;
     private Double aliquota;
+
+    public CalculateResponseDTO(String nome, Double valorBase, Double aliquota, double valorImposto) {
+    }
 }
