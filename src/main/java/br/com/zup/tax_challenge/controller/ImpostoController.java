@@ -30,4 +30,11 @@ public class ImpostoController {
         TipoImposto novoImposto = tipoImpostoService.saveTipoImposto(imposto);
         return ResponseEntity.status(HttpStatus.CREATED).body(novoImposto);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<TipoImposto> findTipoImposto(@PathVariable Long id) {
+        return tipoImpostoService.findTipoImposto(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
 }
