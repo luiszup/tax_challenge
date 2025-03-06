@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService{
     private BCryptPasswordEncoder passwordEncoder;
 
     @Override
-    public void registerUser(RegisterUserDTO registerUserDTO) {
+    public User registerUser(RegisterUserDTO registerUserDTO) {
         if (userRepository.existsByUsername(registerUserDTO.getUsername())) {
             throw new RuntimeException("O usuário já existe");
         }
@@ -38,6 +38,8 @@ public class UserServiceImpl implements UserService{
         roleRepository.saveAll(roles);
 
         user.setRoles(roles);
-        userRepository.save(user);
+        User savedUser = userRepository.save(user);
+
+        return savedUser;
     }
 }
