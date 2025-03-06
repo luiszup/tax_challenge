@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TipoImpostoServiceImpl implements TipoImpostoService{
@@ -28,9 +29,8 @@ public class TipoImpostoServiceImpl implements TipoImpostoService{
     }
 
     @Override
-    public TipoImposto findTipoImposto(Long id) {
-        return impostoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Imposto não encontrado"));
+    public Optional<TipoImposto> findTipoImposto(Long id) {
+        return impostoRepository.findById(id);
     }
 
     @Override
