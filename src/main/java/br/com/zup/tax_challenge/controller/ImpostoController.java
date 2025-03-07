@@ -1,5 +1,7 @@
 package br.com.zup.tax_challenge.controller;
 
+import br.com.zup.tax_challenge.dto.TipoImpostoRequestDTO;
+import br.com.zup.tax_challenge.dto.TipoImpostoResponseDTO;
 import br.com.zup.tax_challenge.model.TipoImposto;
 import br.com.zup.tax_challenge.service.TipoImpostoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,20 +24,20 @@ public class ImpostoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<TipoImposto>> listAll() {
-        List<TipoImposto> impostos = tipoImpostoService.listAll();
+    public ResponseEntity<List<TipoImpostoResponseDTO>> listAll() {
+        List<TipoImpostoResponseDTO> impostos = tipoImpostoService.listAll();
         return ResponseEntity.ok(impostos);
     }
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<TipoImposto> saveTipoImposto(@RequestBody TipoImposto imposto) {
-        TipoImposto novoImposto = tipoImpostoService.saveTipoImposto(imposto);
+    public ResponseEntity<TipoImpostoResponseDTO> saveTipoImposto(@RequestBody TipoImpostoRequestDTO imposto) {
+        TipoImpostoResponseDTO novoImposto = tipoImpostoService.saveTipoImposto(imposto);
         return ResponseEntity.status(HttpStatus.CREATED).body(novoImposto);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TipoImposto> findTipoImposto(@PathVariable Long id) {
+    public ResponseEntity<TipoImpostoResponseDTO> findTipoImposto(@PathVariable Long id) {
         return tipoImpostoService.findTipoImposto(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
