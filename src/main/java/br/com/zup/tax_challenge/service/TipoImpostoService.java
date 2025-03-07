@@ -1,16 +1,18 @@
 package br.com.zup.tax_challenge.service;
 
+import br.com.zup.tax_challenge.dto.TipoImpostoRequestDTO;
+import br.com.zup.tax_challenge.dto.TipoImpostoResponseDTO;
 import br.com.zup.tax_challenge.model.TipoImposto;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface TipoImpostoService {
-    TipoImposto saveTipoImposto(TipoImposto tipoImposto);
+    TipoImpostoResponseDTO saveTipoImposto(TipoImpostoRequestDTO tipoImpostoRequestDTO);
 
-    List<TipoImposto> listAll();
+    List<TipoImpostoResponseDTO> listAll();
 
-    Optional<TipoImposto> findTipoImposto(Long id);
+    Optional<TipoImpostoResponseDTO> findTipoImposto(Long id);
 
     void deleteTipoImposto(Long id);
 }
