@@ -28,7 +28,7 @@ class CalculateImpostoServiceImplTest {
     }
 
     @Test
-    void calculateImpostoSucess() {
+    void calculateImpostoSuccess() {
         Long tipoImpostoId = 1L;
         Double valorBase = 1000.0;
         TipoImpostoResponseDTO tipoImpostoResponseDTO = new TipoImpostoResponseDTO();
