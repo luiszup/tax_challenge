@@ -28,4 +28,20 @@ public class TipoImposto {
 
     public TipoImposto() {
     }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public Double getAliquota() {
+        return aliquota;
+    }
 }

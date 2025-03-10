@@ -11,4 +11,20 @@ public class CalculateResponseDTO {
 
     public CalculateResponseDTO(String nome, Double valorBase, Double aliquota, double valorImposto) {
     }
+
+    public String getTipoImposto() {
+        return tipoImposto;
+    }
+
+    public Double getValorBase() {
+        return valorBase;
+    }
+
+    public Double getValorImposto() {
+        return valorImposto;
+    }
+
+    public Double getAliquota() {
+        return aliquota;
+    }
 }

@@ -9,4 +9,16 @@ public class RegisterUserDTO {
     private String username;
     private String password;
     private Set<Roles> roles;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public Set<Roles> getRoles() {
+        return roles;
+    }
 }
