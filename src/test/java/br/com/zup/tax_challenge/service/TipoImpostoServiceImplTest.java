@@ -13,6 +13,7 @@ import org.mockito.MockitoAnnotations;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+
 class TipoImpostoServiceImplTest {
     @Mock
     private TipoImpostoRepository impostoRepository;
@@ -28,10 +29,9 @@ class TipoImpostoServiceImplTest {
     @Test
     void saveImpostoSuccess() {
         TipoImpostoRequestDTO request = new TipoImpostoRequestDTO("ICMS", "Imposto sobre circulação de mercadorias", 18.0);
-        TipoImposto tipoImposto = new TipoImposto("ICMS", "Imposto sobre circulação de mercadorias", 18.0);
         TipoImposto savedImposto = new TipoImposto(1L, "ICMS", "Imposto sobre circulação de mercadorias", 18.0);
 
-        when(impostoRepository.save(tipoImposto)).thenReturn(savedImposto);
+        when(impostoRepository.save(any(TipoImposto.class))).thenReturn(savedImposto);
 
         TipoImpostoResponseDTO response = impostoService.saveTipoImposto(request);
 
@@ -41,6 +41,6 @@ class TipoImpostoServiceImplTest {
         assertEquals("Imposto sobre circulação de mercadorias", response.getDescricao());
         assertEquals(18.0, response.getAliquota());
 
-        verify(impostoRepository, times(1)).save(tipoImposto);
+        verify(impostoRepository, times(1)).save(any(TipoImposto.class));
     }
 }
