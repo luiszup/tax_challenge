@@ -10,6 +10,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -42,5 +45,22 @@ class TipoImpostoServiceImplTest {
         assertEquals(18.0, response.getAliquota());
 
         verify(impostoRepository, times(1)).save(any(TipoImposto.class));
+    }
+
+    @Test
+    void listAllSuccess() {
+        TipoImposto imposto1 = new TipoImposto(1L, "ICMS", "Imposto sobre circulação de mercadorias", 18.0);
+        TipoImposto imposto2 = new TipoImposto(1L, "ISS", "Imposto sobre serviços", 5.0);
+
+        when(impostoRepository.findAll()).thenReturn(Arrays.asList(imposto1, imposto2));
+
+        List<TipoImpostoResponseDTO> responseList = impostoService.listAll();
+
+        assertNotNull(responseList);
+        assertEquals(2, responseList.size());
+        assertEquals("ICMS", responseList.get(0).getNome());
+        assertEquals("ISS", responseList.get(1).getNome());
+
+        verify(impostoRepository, times(1)).findAll();
     }
 }
