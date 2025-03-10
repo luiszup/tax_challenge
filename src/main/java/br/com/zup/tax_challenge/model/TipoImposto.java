@@ -20,6 +20,13 @@ public class TipoImposto {
     @Column(nullable = false)
     private Double aliquota;
 
+    public TipoImposto(Long id, String nome, String descricao, Double aliquota) {
+        this.id = id;
+        this.nome = nome;
+        this.descricao = descricao;
+        this.aliquota = aliquota;
+    }
+
     public TipoImposto(String nome, String descricao, Double aliquota) {
         this.nome = nome;
         this.descricao = descricao;
