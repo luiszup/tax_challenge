@@ -25,11 +25,12 @@ public class CalculateImpostoServiceImpl implements CalculateImpostoService{
 
         double valorImposto = valorBase * (imposto.getAliquota() / 100);
 
-        return new CalculateResponseDTO(
-                imposto.getNome(),
-                valorBase,
-                imposto.getAliquota(),
-                valorImposto
-        );
+        CalculateResponseDTO response = new CalculateResponseDTO();
+        response.setTipoImposto(imposto.getNome());
+        response.setValorBase(valorBase);
+        response.setAliquota(imposto.getAliquota());
+        response.setValorImposto(valorImposto);
+
+        return response;
     }
 }
