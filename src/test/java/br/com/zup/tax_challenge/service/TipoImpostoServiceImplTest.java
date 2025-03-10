@@ -1,0 +1,46 @@
+package br.com.zup.tax_challenge.service;
+
+import br.com.zup.tax_challenge.dto.TipoImpostoRequestDTO;
+import br.com.zup.tax_challenge.dto.TipoImpostoResponseDTO;
+import br.com.zup.tax_challenge.model.TipoImposto;
+import br.com.zup.tax_challenge.repository.TipoImpostoRepository;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+class TipoImpostoServiceImplTest {
+    @Mock
+    private TipoImpostoRepository impostoRepository;
+
+    @InjectMocks
+    private TipoImpostoServiceImpl impostoService;
+
+    @BeforeEach
+    void serUp() {
+        MockitoAnnotations.openMocks(this);
+    }
+
+    @Test
+    void saveImpostoSuccess() {
+        TipoImpostoRequestDTO request = new TipoImpostoRequestDTO("ICMS", "Imposto sobre circulação de mercadorias", 18.0);
+        TipoImposto tipoImposto = new TipoImposto("ICMS", "Imposto sobre circulação de mercadorias", 18.0);
+        TipoImposto savedImposto = new TipoImposto(1L, "ICMS", "Imposto sobre circulação de mercadorias", 18.0);
+
+        when(impostoRepository.save(tipoImposto)).thenReturn(savedImposto);
+
+        TipoImpostoResponseDTO response = impostoService.saveTipoImposto(request);
+
+        assertNotNull(response);
+        assertEquals(1L, response.getId());
+        assertEquals("ICMS", response.getNome());
+        assertEquals("Imposto sobre circulação de mercadorias", response.getDescricao());
+        assertEquals(18.0, response.getAliquota());
+
+        verify(impostoRepository, times(1)).save(tipoImposto);
+    }
+}
