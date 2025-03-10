@@ -4,6 +4,7 @@ import br.com.zup.tax_challenge.dto.CalculateResponseDTO;
 import br.com.zup.tax_challenge.dto.TipoImpostoResponseDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.web.server.ResponseStatusException;
@@ -18,6 +19,7 @@ class CalculateImpostoServiceImplTest {
     @Mock
     private TipoImpostoService tipoImpostoService;
 
+    @InjectMocks
     private CalculateImpostoServiceImpl calculateImpostoService;
 
     @BeforeEach
@@ -33,7 +35,7 @@ class CalculateImpostoServiceImplTest {
         tipoImpostoResponseDTO.setNome("ICMS");
         tipoImpostoResponseDTO.setAliquota(18.0);
 
-        when(tipoImpostoService.findTipoImposto(tipoImpostoId)).thenReturn(Optional.empty());
+        when(tipoImpostoService.findTipoImposto(tipoImpostoId)).thenReturn(Optional.of(tipoImpostoResponseDTO));
 
         CalculateResponseDTO response = calculateImpostoService.calculateImposto(tipoImpostoId, valorBase);
 
@@ -41,7 +43,23 @@ class CalculateImpostoServiceImplTest {
         assertEquals("ICMS", response.getTipoImposto());
         assertEquals(1000.0, response.getValorBase());
         assertEquals(18.0, response.getAliquota());
-        assertEquals(180.0, response.getValorImposto());
+        assertEquals(180.0, response.getValorImposto(), 0.01);
+
+        verify(tipoImpostoService, times(1)).findTipoImposto(tipoImpostoId);
+    }
+
+    @Test
+    void calculateImpostoFail() {
+        Long tipoImpostoId = 1L;
+        Double valorBase = 1000.0;
+
+        when(tipoImpostoService.findTipoImposto(tipoImpostoId)).thenReturn(Optional.empty());
+
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> {
+            calculateImpostoService.calculateImposto(tipoImpostoId, valorBase);
+        });
+
+        assertEquals("404 NOT_FOUND \"Imposto não encontrado\"", exception.getMessage());
 
         verify(tipoImpostoService, times(1)).findTipoImposto(tipoImpostoId);
     }
