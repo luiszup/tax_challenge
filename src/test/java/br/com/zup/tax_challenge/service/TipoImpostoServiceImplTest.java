@@ -80,4 +80,15 @@ class TipoImpostoServiceImplTest {
 
         verify(impostoRepository, times(1)).findById(id);
     }
+
+    @Test
+    void deleteSuccess() {
+        Long id = 1L;
+
+        doNothing().when(impostoRepository).deleteById(id);
+
+        impostoService.deleteTipoImposto(id);
+
+        verify(impostoRepository, times(1)).deleteById(id);
+    }
 }
