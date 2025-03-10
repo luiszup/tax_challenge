@@ -17,6 +17,12 @@ public class TipoImpostoRequestDTO {
     @Positive(message = "A alíquota deve ser maior que 0")
     private Double aliquota;
 
+    public TipoImpostoRequestDTO(String nome, String descricao, Double aliquota) {
+        this.nome = nome;
+        this.descricao = descricao;
+        this.aliquota = aliquota;
+    }
+
     public String getNome() {
         return nome;
     }
