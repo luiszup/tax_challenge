@@ -75,4 +75,25 @@ class UserServiceImplTest {
         verify(roleRepository, times(1)).saveAll(anySet());
         verify(userRepository, times(1)).save(any(User.class));
     }
+
+    @Test
+    void userExistsFail() {
+        RegisterUserDTO registerUserDTO = new RegisterUserDTO();
+        registerUserDTO.setUsername("usuarioteste");
+        registerUserDTO.setPassword("senha123");
+        registerUserDTO.setRoles(Set.of(Roles.USER));
+
+        when(userRepository.existsByUsername(registerUserDTO.getUsername())).thenReturn(true);
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            userService.registerUser(registerUserDTO);
+        });
+
+        assertEquals("O usuário já existe", exception.getMessage());
+
+        verify(userRepository, times(1)).existsByUsername(registerUserDTO.getUsername());
+        verifyNoInteractions(passwordEncoder);
+        verifyNoInteractions(roleRepository);
+        verify(userRepository, times(0)).save(any(User.class));
+    }
 }
