@@ -105,4 +105,16 @@ class TipoImpostoServiceImplTest {
         assertEquals("Erro ao salvar no banco de dados", exception.getMessage());
         verify(impostoRepository, times(1)).save(any(TipoImposto.class));
     }
+
+    @Test
+    void listAllFail() {
+        when(impostoRepository.findAll()).thenThrow(new RuntimeException("Erro ao buscar dados"));
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            impostoService.listAll();
+        });
+
+        assertEquals("Erro ao buscar dados", exception.getMessage());
+        verify(impostoRepository, times(1)).findAll();
+    }
 }
