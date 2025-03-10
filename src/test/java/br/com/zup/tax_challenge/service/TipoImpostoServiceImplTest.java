@@ -103,6 +103,7 @@ class TipoImpostoServiceImplTest {
         });
 
         assertEquals("Erro ao salvar no banco de dados", exception.getMessage());
+
         verify(impostoRepository, times(1)).save(any(TipoImposto.class));
     }
 
@@ -115,6 +116,20 @@ class TipoImpostoServiceImplTest {
         });
 
         assertEquals("Erro ao buscar dados", exception.getMessage());
+
         verify(impostoRepository, times(1)).findAll();
+    }
+
+    @Test
+    void findImpostoFail() {
+        Long tipoImpostoId = 1L;
+
+        when(impostoRepository.findById(tipoImpostoId)).thenReturn(Optional.empty());
+
+        Optional<TipoImpostoResponseDTO> result = impostoService.findTipoImposto(tipoImpostoId);
+
+        assertTrue(result.isEmpty());
+
+        verify(impostoRepository, times(1)).findById(tipoImpostoId);
     }
 }
