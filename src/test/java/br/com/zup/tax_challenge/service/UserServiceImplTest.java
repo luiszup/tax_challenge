@@ -96,4 +96,26 @@ class UserServiceImplTest {
         verifyNoInteractions(roleRepository);
         verify(userRepository, times(0)).save(any(User.class));
     }
+
+    @Test
+    void registerUserFail() {
+        RegisterUserDTO registerUserDTO = new RegisterUserDTO();
+        registerUserDTO.setUsername("usuarioteste");
+        registerUserDTO.setPassword("senha123");
+        registerUserDTO.setRoles(Set.of(Roles.USER));
+
+        when(userRepository.existsByUsername(registerUserDTO.getUsername())).thenReturn(false);
+        when(passwordEncoder.encode(registerUserDTO.getPassword())).thenReturn("senhacriptografada");
+        when(userRepository.save(any(User.class))).thenThrow(new RuntimeException("Erro ao salvar no banco de dados"));
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            userService.registerUser(registerUserDTO);
+        });
+
+        assertEquals("Erro ao salvar no banco de dados", exception.getMessage());
+
+        verify(userRepository, times(1)).existsByUsername(registerUserDTO.getUsername());
+        verify(passwordEncoder, times(1)).encode(registerUserDTO.getPassword());
+        verify(userRepository, times(1)).save(any(User.class));
+    }
 }
