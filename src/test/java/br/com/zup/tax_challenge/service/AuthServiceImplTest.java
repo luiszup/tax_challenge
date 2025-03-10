@@ -58,4 +58,20 @@ class AuthServiceImplTest {
         verify(jwtTokenProvider, times(1)).generateToken(authentication);
         verify(securityContext, times(1)).setAuthentication(authentication);
     }
+
+    @Test
+    void loginFail() {
+        LoginDTO loginDTO = new LoginDTO();
+        loginDTO.setUsername("usuarioteste");
+        loginDTO.setPassword("senhaerrada");
+
+        when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
+                .thenThrow(new RuntimeException("Autenticação falhou"));
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> authService.login(loginDTO));
+        assertEquals("Autenticação falhou", exception.getMessage());
+
+        verify(authenticationManager, times(1)).authenticate(any(UsernamePasswordAuthenticationToken.class));
+        verifyNoInteractions(jwtTokenProvider);
+    }
 }
