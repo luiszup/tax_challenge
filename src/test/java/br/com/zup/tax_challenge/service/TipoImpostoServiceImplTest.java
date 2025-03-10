@@ -132,4 +132,19 @@ class TipoImpostoServiceImplTest {
 
         verify(impostoRepository, times(1)).findById(tipoImpostoId);
     }
+
+    @Test
+    void deleteFail() {
+        Long tipoImpostoId = 1L;
+
+        doThrow(new RuntimeException("Imposto não encontrado")).when(impostoRepository).deleteById(tipoImpostoId);
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            impostoService.deleteTipoImposto(tipoImpostoId);
+        });
+
+        assertEquals("Imposto não encontrado", exception.getMessage());
+
+        verify(impostoRepository, times(1)).deleteById(tipoImpostoId);
+    }
 }
