@@ -12,6 +12,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -62,5 +63,21 @@ class TipoImpostoServiceImplTest {
         assertEquals("ISS", responseList.get(1).getNome());
 
         verify(impostoRepository, times(1)).findAll();
+    }
+
+    @Test
+    void findImpostoSuccess() {
+        Long id = 1L;
+        TipoImposto imposto = new TipoImposto(1L, "ICMS", "Imposto sobre circulação de mercadorias", 18.0);
+
+        when(impostoRepository.findById(id)).thenReturn(Optional.of(imposto));
+
+        Optional<TipoImpostoResponseDTO> response = impostoService.findTipoImposto(id);
+
+        assertTrue(response.isPresent());
+        assertEquals("ICMS", response.get().getNome());
+        assertEquals(18.0, response.get().getAliquota());
+
+        verify(impostoRepository, times(1)).findById(id);
     }
 }
