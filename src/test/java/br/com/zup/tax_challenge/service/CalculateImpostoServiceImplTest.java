@@ -43,7 +43,7 @@ class CalculateImpostoServiceImplTest {
         assertEquals("ICMS", response.getTipoImposto());
         assertEquals(1000.0, response.getValorBase());
         assertEquals(18.0, response.getAliquota());
-        assertEquals(180.0, response.getValorImposto(), 0.01);
+        assertEquals(180.0, response.getValorImposto());
 
         verify(tipoImpostoService, times(1)).findTipoImposto(tipoImpostoId);
     }
