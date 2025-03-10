@@ -91,4 +91,18 @@ class TipoImpostoServiceImplTest {
 
         verify(impostoRepository, times(1)).deleteById(id);
     }
+
+    @Test
+    void saveImpostoFail() {
+        TipoImpostoRequestDTO request = new TipoImpostoRequestDTO("ICMS", "Imposto sobre circulação de mercadorias", 18.0);
+
+        when(impostoRepository.save(any(TipoImposto.class))).thenThrow(new RuntimeException("Erro ao salvar no banco de dados"));
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            impostoService.saveTipoImposto(request);
+        });
+
+        assertEquals("Erro ao salvar no banco de dados", exception.getMessage());
+        verify(impostoRepository, times(1)).save(any(TipoImposto.class));
+    }
 }
