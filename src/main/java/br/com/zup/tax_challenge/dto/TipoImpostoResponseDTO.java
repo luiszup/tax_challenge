@@ -9,6 +9,9 @@ public class TipoImpostoResponseDTO {
     private String descricao;
     private Double aliquota;
 
+    public TipoImpostoResponseDTO() {
+    }
+
     public TipoImpostoResponseDTO(Long id, String nome, String descricao, Double aliquota) {
         this.id = id;
         this.nome = nome;
