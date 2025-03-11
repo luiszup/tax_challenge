@@ -16,4 +16,22 @@ public class TipoImpostoRequestDTO {
     @NotNull(message = "A alíquota é obrigatória")
     @Positive(message = "A alíquota deve ser maior que 0")
     private Double aliquota;
+
+    public TipoImpostoRequestDTO(String nome, String descricao, Double aliquota) {
+        this.nome = nome;
+        this.descricao = descricao;
+        this.aliquota = aliquota;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public Double getAliquota() {
+        return aliquota;
+    }
 }

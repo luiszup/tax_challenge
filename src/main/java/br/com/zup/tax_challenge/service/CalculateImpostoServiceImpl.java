@@ -1,6 +1,7 @@
 package br.com.zup.tax_challenge.service;
 
 import br.com.zup.tax_challenge.dto.CalculateResponseDTO;
+import br.com.zup.tax_challenge.dto.TipoImpostoResponseDTO;
 import br.com.zup.tax_challenge.model.TipoImposto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,16 +20,17 @@ public class CalculateImpostoServiceImpl implements CalculateImpostoService{
 
     @Override
     public CalculateResponseDTO calculateImposto(Long tipoImpostoId, Double valorBase) {
-        TipoImposto imposto = tipoImpostoService.findTipoImposto(tipoImpostoId)
+        TipoImpostoResponseDTO imposto = tipoImpostoService.findTipoImposto(tipoImpostoId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Imposto não encontrado"));
 
         double valorImposto = valorBase * (imposto.getAliquota() / 100);
 
-        return new CalculateResponseDTO(
-                imposto.getNome(),
-                valorBase,
-                imposto.getAliquota(),
-                valorImposto
-        );
+        CalculateResponseDTO response = new CalculateResponseDTO();
+        response.setTipoImposto(imposto.getNome());
+        response.setValorBase(valorBase);
+        response.setAliquota(imposto.getAliquota());
+        response.setValorImposto(valorImposto);
+
+        return response;
     }
 }
