@@ -46,4 +46,13 @@ class JwtTokenProviderTest {
 
         assertThat(isValid).isFalse();
     }
+
+    @Test
+    void validateNullToken() {
+        String nullToken = null;
+
+        boolean isValid = jwtTokenProvider.validateToken(nullToken);
+
+        assertThat(isValid).isFalse();
+    }
 }
