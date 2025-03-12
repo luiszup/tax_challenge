@@ -66,4 +66,17 @@ class CalculateControllerTest {
         verify(calculateImpostoService, times(1))
                 .calculateImposto(request.getTipoImpostoId(), request.getValorBase());
     }
+
+    @Test
+    void invalidRequestCalculate() {
+        CalculateRequestDTO request = new CalculateRequestDTO();
+        request.setTipoImpostoId(null);
+        request.setValorBase(-1000.0);
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            calculateController.calculate(request);
+        });
+
+        assertThat(exception.getMessage()).isEqualTo("Tipo de imposto ou valor base inválido");
+    }
 }
