@@ -31,7 +31,16 @@ class JwtTokenProviderTest {
     }
 
     @Test
-    void getUsername() {
+    void getUsernameSuccess() {
+        String username = "usuarioteste";
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_USER");
+        Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, Collections.singletonList(authority));
+
+        String token = jwtTokenProvider.generateToken(authentication);
+
+        String extractedUsername = jwtTokenProvider.getUsername(token);
+
+        assertEquals(username, extractedUsername);
     }
 
     @Test
