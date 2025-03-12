@@ -37,7 +37,7 @@ public class JwtTokenProvider {
     public String getUsername(String token) {
         return Jwts.parser()
                 .setSigningKey(jwtSecret)
-                .parseClaimsJwt(token)
+                .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
     }
@@ -45,7 +45,7 @@ public class JwtTokenProvider {
     public boolean validateToken(String token) {
         Jwts.parser()
                 .setSigningKey(jwtSecret)
-                .parseClaimsJwt(token);
+                .parseClaimsJws(token);
         return true;
     }
 }
