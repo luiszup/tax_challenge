@@ -45,5 +45,14 @@ class JwtTokenProviderTest {
 
     @Test
     void validateToken() {
+        String username = "usuarioteste";
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_USER");
+        Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, Collections.singletonList(authority));
+
+        String token = jwtTokenProvider.generateToken(authentication);
+
+        boolean isValid = jwtTokenProvider.validateToken(token);
+
+        assertTrue(isValid);
     }
 }
