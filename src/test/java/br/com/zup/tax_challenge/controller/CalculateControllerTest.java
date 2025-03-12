@@ -47,4 +47,23 @@ class CalculateControllerTest {
         verify(calculateImpostoService, times(1))
                 .calculateImposto(request.getTipoImpostoId(), request.getValorBase());
     }
+
+    @Test
+    void calculateFail() {
+        CalculateRequestDTO request = new CalculateRequestDTO();
+        request.setTipoImpostoId(1L);
+        request.setValorBase(1000.0);
+
+        when(calculateImpostoService.calculateImposto(request.getTipoImpostoId(), request.getValorBase()))
+                .thenThrow(new RuntimeException("Erro ao calcular imposto"));
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            calculateController.calculate(request);
+        });
+
+        assertThat(exception.getMessage()).isEqualTo("Erro ao calcular imposto");
+
+        verify(calculateImpostoService, times(1))
+                .calculateImposto(request.getTipoImpostoId(), request.getValorBase());
+    }
 }
