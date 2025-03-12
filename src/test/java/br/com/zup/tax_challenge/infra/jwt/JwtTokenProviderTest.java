@@ -37,4 +37,13 @@ class JwtTokenProviderTest {
 
         assertThat(isValid).isTrue();
     }
+
+    @Test
+    void validateInvalidToken() {
+        String invalidToken = "token_invalido";
+
+        boolean isValid = jwtTokenProvider.validateToken(invalidToken);
+
+        assertThat(isValid).isFalse();
+    }
 }
