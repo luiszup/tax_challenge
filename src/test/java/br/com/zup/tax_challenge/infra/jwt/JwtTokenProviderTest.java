@@ -2,6 +2,11 @@ package br.com.zup.tax_challenge.infra.jwt;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
 class JwtTokenProviderTest {
@@ -14,7 +19,15 @@ class JwtTokenProviderTest {
     }
 
     @Test
-    void generateToken() {
+    void generateTokenSuccess() {
+        String username = "usuarioteste";
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_USER");
+        Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, Collections.singletonList(authority));
+
+        String token = jwtTokenProvider.generateToken(authentication);
+
+        assertNotNull(token);
+        assertFalse(token.isEmpty());
     }
 
     @Test
