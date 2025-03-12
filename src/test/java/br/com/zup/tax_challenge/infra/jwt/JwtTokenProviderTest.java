@@ -39,6 +39,17 @@ class JwtTokenProviderTest {
     }
 
     @Test
+    void generateTokenFail() {
+        Authentication invalidAuthentication = new UsernamePasswordAuthenticationToken(null, null, Collections.emptyList());
+
+        String token = jwtTokenProvider.generateToken(invalidAuthentication);
+
+        boolean isValid = jwtTokenProvider.validateToken(token);
+
+        assertThat(isValid).isFalse();
+    }
+
+    @Test
     void validateInvalidToken() {
         String invalidToken = "token_invalido";
 
