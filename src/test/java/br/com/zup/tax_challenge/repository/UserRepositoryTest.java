@@ -26,4 +26,10 @@ class UserRepositoryTest {
         assertTrue(foundUser.isPresent());
         assertEquals("usuarioteste", foundUser.get().getUsername());
     }
+
+    @Test
+    void findUsernameFail() {
+        Optional<User> foundUser = userRepository.findByUsername("usuario-que-nao-existe");
+        assertFalse(foundUser.isPresent());
+    }
 }
