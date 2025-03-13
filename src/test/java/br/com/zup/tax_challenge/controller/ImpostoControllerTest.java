@@ -78,4 +78,18 @@ class ImpostoControllerTest {
 
         verify(impostoService, times(1)).findTipoImposto(id);
     }
+
+    @Test
+    void findImpostoFail() {
+        Long id = 1L;
+        when(impostoService.findTipoImposto(id)).thenReturn(Optional.empty());
+
+        ResponseEntity<TipoImpostoResponseDTO> response = impostoController.findTipoImposto(id);
+
+        assertNotNull(response);
+        assertEquals(404, response.getStatusCodeValue());
+        assertNull(response.getBody());
+
+        verify(impostoService, times(1)).findTipoImposto(id);
+    }
 }
