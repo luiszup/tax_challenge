@@ -32,4 +32,16 @@ class UserRepositoryTest {
         Optional<User> foundUser = userRepository.findByUsername("usuario-que-nao-existe");
         assertFalse(foundUser.isPresent());
     }
+
+    @Test
+    void existByUsernameSuccess() {
+        User user = new User();
+        user.setUsername("testuser");
+        user.setPassword("password123");
+        userRepository.save(user);
+
+        boolean exists = userRepository.existsByUsername("testuser");
+
+        assertTrue(exists);
+    }
 }
