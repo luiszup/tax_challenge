@@ -72,6 +72,7 @@ class UserControllerTest {
         });
 
         assertEquals("Erro ao registrar usuário", exception.getMessage());
+
         verify(userService, times(1)).registerUser(any(RegisterUserDTO.class));
     }
 
@@ -91,6 +92,23 @@ class UserControllerTest {
         assertEquals(200, response.getStatusCodeValue());
         assertNotNull(response.getBody());
         assertEquals("token_test", response.getBody().get("token"));
+
+        verify(authService, times(1)).login(any(LoginDTO.class));
+    }
+
+    @Test
+    void loginFail() {
+        LoginDTO request = new LoginDTO();
+        request.setUsername("usuarioteste");
+        request.setPassword("senha123");
+
+        when(authService.login(any(LoginDTO.class))).thenThrow(new RuntimeException("Erro ao realizar login"));
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            userController.login(request);
+        });
+
+        assertEquals("Erro ao realizar login", exception.getMessage());
 
         verify(authService, times(1)).login(any(LoginDTO.class));
     }
