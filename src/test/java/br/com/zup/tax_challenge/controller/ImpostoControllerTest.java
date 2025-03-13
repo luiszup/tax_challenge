@@ -124,4 +124,18 @@ class ImpostoControllerTest {
 
         verify(impostoService, times(1)).deleteTipoImposto(id);
     }
+
+    @Test
+    void deleteFail() {
+        Long id = 1L;
+
+        doThrow(new RuntimeException("Imposto não encontrado")).when(impostoService).deleteTipoImposto(id);
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            impostoController.deleteTipoImposto(id);
+        });
+
+        assertEquals("Imposto não encontrado", exception.getMessage());
+        verify(impostoService, times(1)).deleteTipoImposto(id);
+    }
 }
