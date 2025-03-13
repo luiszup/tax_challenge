@@ -10,6 +10,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -58,5 +60,22 @@ class ImpostoControllerTest {
         assertEquals("Erro ao salvar o imposto", exception.getMessage());
 
         verify(impostoService, times(1)).saveTipoImposto(any(TipoImpostoRequestDTO.class));
+    }
+
+    @Test
+    void findImpostoSuccess() {
+        Long id = 1L;
+        TipoImpostoResponseDTO imposto = new TipoImpostoResponseDTO(1L, "ICMS", "Imposto sobre circulação de mercadorias", 18.0);
+
+        when(impostoService.findTipoImposto(id)).thenReturn(Optional.of(imposto));
+
+        ResponseEntity<TipoImpostoResponseDTO> response = impostoController.findTipoImposto(id);
+
+        assertNotNull(response);
+        assertEquals(200, response.getStatusCodeValue());
+        assertNotNull(response.getBody());
+        assertEquals("ICMS", response.getBody().getNome());
+
+        verify(impostoService, times(1)).findTipoImposto(id);
     }
 }
