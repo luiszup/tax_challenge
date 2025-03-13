@@ -10,6 +10,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -91,5 +93,22 @@ class ImpostoControllerTest {
         assertNull(response.getBody());
 
         verify(impostoService, times(1)).findTipoImposto(id);
+    }
+
+    @Test
+    void listAllSuccess() {
+        TipoImpostoResponseDTO imposto1 = new TipoImpostoResponseDTO(1L, "ICMS", "Imposto sobre circulação de mercadorias", 18.0);
+        TipoImpostoResponseDTO imposto2 = new TipoImpostoResponseDTO(2L, "ISS", "Imposto sobre serviços", 5.0);
+
+        when(impostoService.listAll()).thenReturn(Arrays.asList(imposto1, imposto2));
+
+        ResponseEntity<List<TipoImpostoResponseDTO>> response = impostoController.listAll();
+
+        assertNotNull(response);
+        assertEquals(200, response.getStatusCodeValue());
+        assertNotNull(response.getBody());
+        assertEquals(2, response.getBody().size());
+
+        verify(impostoService, times(1)).listAll();
     }
 }
