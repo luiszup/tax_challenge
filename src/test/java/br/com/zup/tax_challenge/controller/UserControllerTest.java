@@ -55,4 +55,21 @@ class UserControllerTest {
 
         verify(userService, times(1)).registerUser(any(RegisterUserDTO.class));
     }
+
+    @Test
+    void registerUserFail() {
+        RegisterUserDTO request = new RegisterUserDTO();
+        request.setUsername("testuser");
+        request.setPassword("password123");
+        request.setRoles(Collections.emptySet());
+
+        when(userService.registerUser(any(RegisterUserDTO.class))).thenThrow(new RuntimeException("Erro ao registrar usuário"));
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            userController.registerUser(request);
+        });
+
+        assertEquals("Erro ao registrar usuário", exception.getMessage());
+        verify(userService, times(1)).registerUser(any(RegisterUserDTO.class));
+    }
 }
