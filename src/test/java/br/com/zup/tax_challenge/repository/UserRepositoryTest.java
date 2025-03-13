@@ -44,4 +44,11 @@ class UserRepositoryTest {
 
         assertTrue(exists);
     }
+
+    @Test
+    void existByUsernameFail() {
+        boolean exists = userRepository.existsByUsername("usuario-que-nao-existe");
+
+        assertFalse(exists);
+    }
 }
