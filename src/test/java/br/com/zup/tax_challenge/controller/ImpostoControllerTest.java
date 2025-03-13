@@ -43,4 +43,20 @@ class ImpostoControllerTest {
 
         verify(impostoService, times(1)).saveTipoImposto(any(TipoImpostoRequestDTO.class));
     }
+
+    @Test
+    void saveImpostoFail() {
+        TipoImpostoRequestDTO request = new TipoImpostoRequestDTO("ICMS", "Imposto sobre circulação de mercadorias", 18.0);
+
+        when(impostoService.saveTipoImposto(any(TipoImpostoRequestDTO.class)))
+                .thenThrow(new RuntimeException("Erro ao salvar o imposto"));
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            impostoController.saveTipoImposto(request);
+        });
+
+        assertEquals("Erro ao salvar o imposto", exception.getMessage());
+
+        verify(impostoService, times(1)).saveTipoImposto(any(TipoImpostoRequestDTO.class));
+    }
 }
