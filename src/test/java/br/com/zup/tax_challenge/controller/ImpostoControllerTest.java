@@ -1,0 +1,46 @@
+package br.com.zup.tax_challenge.controller;
+
+import br.com.zup.tax_challenge.dto.TipoImpostoRequestDTO;
+import br.com.zup.tax_challenge.dto.TipoImpostoResponseDTO;
+import br.com.zup.tax_challenge.service.TipoImpostoService;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.http.ResponseEntity;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+
+class ImpostoControllerTest {
+    @Mock
+    private TipoImpostoService impostoService;
+
+    @InjectMocks
+    private ImpostoController impostoController;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
+
+    @Test
+    void saveImpostoSuccess() {
+        TipoImpostoRequestDTO request = new TipoImpostoRequestDTO("ICMS", "Imposto sobre circulação de mercadorias", 18.0);
+        TipoImpostoResponseDTO savedImposto = new TipoImpostoResponseDTO(1L, "ICMS", "Imposto sobre circulação de mercadorias", 18.0);
+
+        when(impostoService.saveTipoImposto(any(TipoImpostoRequestDTO.class))).thenReturn(savedImposto);
+
+        ResponseEntity<TipoImpostoResponseDTO> response = impostoController.saveTipoImposto(request);
+
+        assertNotNull(response);
+        assertEquals(201, response.getStatusCodeValue());
+        assertNotNull(response.getBody());
+        assertEquals(1L, response.getBody().getId());
+        assertEquals("ICMS", response.getBody().getNome());
+
+        verify(impostoService, times(1)).saveTipoImposto(any(TipoImpostoRequestDTO.class));
+    }
+}
