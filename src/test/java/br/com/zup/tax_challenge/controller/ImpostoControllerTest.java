@@ -111,4 +111,17 @@ class ImpostoControllerTest {
 
         verify(impostoService, times(1)).listAll();
     }
+
+    @Test
+    void deleteSuccess() {
+        Long id = 1L;
+        doNothing().when(impostoService).deleteTipoImposto(id);
+
+        ResponseEntity<Void> response = impostoController.deleteTipoImposto(id);
+
+        assertNotNull(response);
+        assertEquals(204, response.getStatusCodeValue());
+
+        verify(impostoService, times(1)).deleteTipoImposto(id);
+    }
 }
