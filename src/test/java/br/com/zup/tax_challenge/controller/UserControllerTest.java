@@ -1,5 +1,6 @@
 package br.com.zup.tax_challenge.controller;
 
+import br.com.zup.tax_challenge.dto.LoginDTO;
 import br.com.zup.tax_challenge.dto.RegisterUserDTO;
 import br.com.zup.tax_challenge.model.User;
 import br.com.zup.tax_challenge.service.AuthService;
@@ -12,6 +13,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Collections;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -71,5 +73,25 @@ class UserControllerTest {
 
         assertEquals("Erro ao registrar usuário", exception.getMessage());
         verify(userService, times(1)).registerUser(any(RegisterUserDTO.class));
+    }
+
+    @Test
+    void loginSuccess() {
+        LoginDTO request = new LoginDTO();
+        request.setUsername("usuarioteste");
+        request.setPassword("senha123");
+
+        String testToken = "token_test";
+
+        when(authService.login(any(LoginDTO.class))).thenReturn(testToken);
+
+        ResponseEntity<Map<String, String>> response = userController.login(request);
+
+        assertNotNull(response);
+        assertEquals(200, response.getStatusCodeValue());
+        assertNotNull(response.getBody());
+        assertEquals("token_test", response.getBody().get("token"));
+
+        verify(authService, times(1)).login(any(LoginDTO.class));
     }
 }
