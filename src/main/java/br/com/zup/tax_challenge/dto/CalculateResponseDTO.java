@@ -8,6 +8,7 @@ public class CalculateResponseDTO {
     private Double valorBase;
     private Double valorImposto;
     private Double aliquota;
+    private Double valorFinal;
 
     public CalculateResponseDTO() {
     }
@@ -45,5 +46,13 @@ public class CalculateResponseDTO {
 
     public void setTipoImposto(String tipoImposto) {
         this.tipoImposto = tipoImposto;
+    }
+
+    public Double getValorFinal() {
+        return valorFinal;
+    }
+
+    public void setValorFinal(Double valorFinal) {
+        this.valorFinal = valorFinal;
     }
 }

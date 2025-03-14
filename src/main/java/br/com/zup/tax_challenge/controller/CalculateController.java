@@ -26,6 +26,10 @@ public class CalculateController {
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CalculateResponseDTO> calculate(@RequestBody @Valid CalculateRequestDTO request) {
+        if (request.getTipoImpostoId() == null || request.getValorBase() < 0) {
+            throw new IllegalArgumentException("Tipo de imposto ou valor base inválido");
+        }
+
         CalculateResponseDTO response = calculateImpostoService.calculateImposto(request.getTipoImpostoId(), request.getValorBase());
         return ResponseEntity.ok(response);
     }
