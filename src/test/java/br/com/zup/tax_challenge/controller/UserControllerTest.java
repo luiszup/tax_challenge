@@ -2,6 +2,7 @@ package br.com.zup.tax_challenge.controller;
 
 import br.com.zup.tax_challenge.dto.LoginDTO;
 import br.com.zup.tax_challenge.dto.RegisterUserDTO;
+import br.com.zup.tax_challenge.dto.UserResponseDTO;
 import br.com.zup.tax_challenge.model.User;
 import br.com.zup.tax_challenge.service.AuthService;
 import br.com.zup.tax_challenge.service.UserService;
@@ -47,7 +48,7 @@ class UserControllerTest {
 
         when(userService.registerUser(any(RegisterUserDTO.class))).thenReturn(savedUser);
 
-        ResponseEntity<User> response = userController.registerUser(request);
+        ResponseEntity<UserResponseDTO> response = userController.registerUser(request);
 
         assertNotNull(response);
         assertEquals(201, response.getStatusCodeValue());
