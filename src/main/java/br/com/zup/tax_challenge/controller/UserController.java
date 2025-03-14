@@ -2,6 +2,8 @@ package br.com.zup.tax_challenge.controller;
 
 import br.com.zup.tax_challenge.dto.LoginDTO;
 import br.com.zup.tax_challenge.dto.RegisterUserDTO;
+import br.com.zup.tax_challenge.dto.UserResponseDTO;
+import br.com.zup.tax_challenge.model.Role;
 import br.com.zup.tax_challenge.model.User;
 import br.com.zup.tax_challenge.service.AuthService;
 import br.com.zup.tax_challenge.service.UserService;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/user")
@@ -32,9 +35,15 @@ public class UserController {
     }
 
     @PostMapping("/registrar")
-    public ResponseEntity<User> registerUser(@RequestBody RegisterUserDTO user) {
+    public ResponseEntity<UserResponseDTO> registerUser(@RequestBody RegisterUserDTO user) {
         User newUser = userService.registerUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
+        UserResponseDTO response = new UserResponseDTO(
+                newUser.getId(),
+                newUser.getUsername(),
+                newUser.getRoles().stream().map(Role::getName).collect(Collectors.toSet())
+        );
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PostMapping("/login")
