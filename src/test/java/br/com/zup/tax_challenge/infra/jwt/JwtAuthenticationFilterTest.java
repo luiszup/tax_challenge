@@ -67,4 +67,18 @@ class JwtAuthenticationFilterTest {
 
         verify(filterChain, times(1)).doFilter(request, response);
     }
+
+    @Test
+    void filterInvalidToken() throws ServletException, IOException {
+        String token = "token_invalido";
+
+        when(request.getHeader("Authorization")).thenReturn("Bearer " + token);
+        when(jwtTokenProvider.validateToken(token)).thenReturn(false);
+
+        jwtAuthenticationFilter.doFilterInternal(request, response, filterChain);
+
+        assertNull(SecurityContextHolder.getContext().getAuthentication());
+
+        verify(filterChain, times(1)).doFilter(request, response);
+    }
 }
