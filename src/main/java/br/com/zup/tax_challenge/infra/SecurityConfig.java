@@ -4,6 +4,7 @@ import br.com.zup.tax_challenge.infra.jwt.JwtAuthenticationEntryPoint;
 import br.com.zup.tax_challenge.infra.jwt.JwtAuthenticationFilter;
 import br.com.zup.tax_challenge.service.CustomUserDetailsService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,7 +14,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import java.nio.file.AccessDeniedException;
 
 @Configuration
 @EnableWebSecurity
@@ -24,6 +28,7 @@ public class SecurityConfig {
 
     private JwtAuthenticationEntryPoint authenticationEntryPoint;
 
+    @Autowired
     private JwtAuthenticationFilter authenticationFilter;
 
     @Bean
@@ -43,7 +48,13 @@ public class SecurityConfig {
                         .requestMatchers(new AntPathRequestMatcher("/user/registrar"), new AntPathRequestMatcher("/user/login")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/tipos/**"), new AntPathRequestMatcher("/calculo")).hasRole("ADMIN")
                         .anyRequest().authenticated()
-                ).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                )
+                .exceptionHandling(ex -> ex.accessDeniedHandler((request, response, accessDeniedException) -> {
+                    throw new AccessDeniedException("Você não tem permissão para acessar este recurso");
+                }))
+                .exceptionHandling(ex -> ex.authenticationEntryPoint(authenticationEntryPoint))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
