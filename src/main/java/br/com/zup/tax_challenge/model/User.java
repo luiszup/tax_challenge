@@ -3,6 +3,7 @@ package br.com.zup.tax_challenge.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -24,7 +25,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
     )
-    private Set<Role> cargos;
+    private Set<Role> cargos = new HashSet<>();
 
     public User(String senha, String usuario) {
         this.senha = senha;
