@@ -38,13 +38,13 @@ class UserControllerTest {
     @Test
     void registerUserSuccess() {
         RegisterUserDTO request = new RegisterUserDTO();
-        request.setUsername("usuarioteste");
-        request.setPassword("senha123");
-        request.setRoles(Collections.emptySet());
+        request.setUsuario("usuarioteste");
+        request.setSenha("senha123");
+        request.setCargos(Collections.emptySet());
 
         User savedUser = new User();
         savedUser.setId(1L);
-        savedUser.setUsername("usuarioteste");
+        savedUser.setUsuario("usuarioteste");
 
         when(userService.registerUser(any(RegisterUserDTO.class))).thenReturn(savedUser);
 
@@ -54,7 +54,7 @@ class UserControllerTest {
         assertEquals(201, response.getStatusCodeValue());
         assertNotNull(response.getBody());
         assertEquals(1L, response.getBody().getId());
-        assertEquals("usuarioteste", response.getBody().getUsername());
+        assertEquals("usuarioteste", response.getBody().getUsuario());
 
         verify(userService, times(1)).registerUser(any(RegisterUserDTO.class));
     }
@@ -62,9 +62,9 @@ class UserControllerTest {
     @Test
     void registerUserFail() {
         RegisterUserDTO request = new RegisterUserDTO();
-        request.setUsername("testuser");
-        request.setPassword("password123");
-        request.setRoles(Collections.emptySet());
+        request.setUsuario("testuser");
+        request.setSenha("password123");
+        request.setCargos(Collections.emptySet());
 
         when(userService.registerUser(any(RegisterUserDTO.class))).thenThrow(new RuntimeException("Erro ao registrar usuário"));
 
@@ -80,8 +80,8 @@ class UserControllerTest {
     @Test
     void loginSuccess() {
         LoginDTO request = new LoginDTO();
-        request.setUsername("usuarioteste");
-        request.setPassword("senha123");
+        request.setUsuario("usuarioteste");
+        request.setSenha("senha123");
 
         String testToken = "token_test";
 
@@ -100,8 +100,8 @@ class UserControllerTest {
     @Test
     void loginFail() {
         LoginDTO request = new LoginDTO();
-        request.setUsername("usuarioteste");
-        request.setPassword("senha123");
+        request.setUsuario("usuarioteste");
+        request.setSenha("senha123");
 
         when(authService.login(any(LoginDTO.class))).thenThrow(new RuntimeException("Erro ao realizar login"));
 

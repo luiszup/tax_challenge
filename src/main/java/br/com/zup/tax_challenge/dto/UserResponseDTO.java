@@ -4,13 +4,13 @@ import java.util.Set;
 
 public class UserResponseDTO {
     private Long id;
-    private String username;
-    private Set<String> roles;
+    private String usuario;
+    private Set<String> cargos;
 
-    public UserResponseDTO(Long id, String username, Set<String> roles) {
+    public UserResponseDTO(Long id, String usuario, Set<String> cargos) {
         this.id = id;
-        this.username = username;
-        this.roles = roles;
+        this.usuario = usuario;
+        this.cargos = cargos;
     }
 
     public Long getId() {
@@ -21,19 +21,19 @@ public class UserResponseDTO {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUsuario() {
+        return usuario;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
 
-    public Set<String> getRoles() {
-        return roles;
+    public Set<String> getCargos() {
+        return cargos;
     }
 
-    public void setRoles(Set<String> roles) {
-        this.roles = roles;
+    public void setCargos(Set<String> cargos) {
+        this.cargos = cargos;
     }
 }

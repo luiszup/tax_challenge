@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/usuario")
 public class UserController {
 
     @Autowired
@@ -39,8 +39,8 @@ public class UserController {
         User newUser = userService.registerUser(user);
         UserResponseDTO response = new UserResponseDTO(
                 newUser.getId(),
-                newUser.getUsername(),
-                newUser.getRoles().stream().map(Role::getName).collect(Collectors.toSet())
+                newUser.getUsuario(),
+                newUser.getCargos().stream().map(Role::getName).collect(Collectors.toSet())
         );
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);

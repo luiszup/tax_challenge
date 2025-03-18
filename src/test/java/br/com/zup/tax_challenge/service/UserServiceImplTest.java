@@ -43,34 +43,34 @@ class UserServiceImplTest {
     @Test
     void registerUserSuccess() {
         RegisterUserDTO registerUserDTO = new RegisterUserDTO();
-        registerUserDTO.setUsername("usuarioteste");
-        registerUserDTO.setPassword("senha123");
-        registerUserDTO.setRoles(Set.of(Roles.USER));
+        registerUserDTO.setUsuario("usuarioteste");
+        registerUserDTO.setSenha("senha123");
+        registerUserDTO.setCargos(Set.of(Roles.USER));
 
-        when(userRepository.existsByUsername(registerUserDTO.getUsername())).thenReturn(false);
-        when(passwordEncoder.encode(registerUserDTO.getPassword())).thenReturn("senhacriptografada");
+        when(userRepository.existsByUsername(registerUserDTO.getUsuario())).thenReturn(false);
+        when(passwordEncoder.encode(registerUserDTO.getSenha())).thenReturn("senhacriptografada");
 
         Set<Role> roles = new HashSet<>();
         roles.add(new Role(Roles.USER.name()));
         when(roleRepository.saveAll(anySet())).thenReturn(new ArrayList<>(roles));
 
         User savedUser = new User();
-        savedUser.setUsername("usuarioteste");
-        savedUser.setPassword("senhacriptografada");
-        savedUser.setRoles(roles);
+        savedUser.setUsuario("usuarioteste");
+        savedUser.setSenha("senhacriptografada");
+        savedUser.setCargos(roles);
 
         when(userRepository.save(any(User.class))).thenReturn(savedUser);
 
         User result = userService.registerUser(registerUserDTO);
 
         assertNotNull(result);
-        assertEquals("usuarioteste", result.getUsername());
-        assertEquals("senhacriptografada", result.getPassword());
-        assertEquals(1, result.getRoles().size());
-        assertTrue(result.getRoles().stream().anyMatch(role -> role.getName().equals("USER")));
+        assertEquals("usuarioteste", result.getUsuario());
+        assertEquals("senhacriptografada", result.getSenha());
+        assertEquals(1, result.getCargos().size());
+        assertTrue(result.getCargos().stream().anyMatch(role -> role.getName().equals("USER")));
 
-        verify(userRepository, times(1)).existsByUsername(registerUserDTO.getUsername());
-        verify(passwordEncoder, times(1)).encode(registerUserDTO.getPassword());
+        verify(userRepository, times(1)).existsByUsername(registerUserDTO.getUsuario());
+        verify(passwordEncoder, times(1)).encode(registerUserDTO.getSenha());
         verify(roleRepository, times(1)).saveAll(anySet());
         verify(userRepository, times(1)).save(any(User.class));
     }
@@ -78,11 +78,11 @@ class UserServiceImplTest {
     @Test
     void userExistsFail() {
         RegisterUserDTO registerUserDTO = new RegisterUserDTO();
-        registerUserDTO.setUsername("usuarioteste");
-        registerUserDTO.setPassword("senha123");
-        registerUserDTO.setRoles(Set.of(Roles.USER));
+        registerUserDTO.setUsuario("usuarioteste");
+        registerUserDTO.setSenha("senha123");
+        registerUserDTO.setCargos(Set.of(Roles.USER));
 
-        when(userRepository.existsByUsername(registerUserDTO.getUsername())).thenReturn(true);
+        when(userRepository.existsByUsername(registerUserDTO.getUsuario())).thenReturn(true);
 
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {
             userService.registerUser(registerUserDTO);
@@ -90,7 +90,7 @@ class UserServiceImplTest {
 
         assertEquals("O usuário já existe", exception.getMessage());
 
-        verify(userRepository, times(1)).existsByUsername(registerUserDTO.getUsername());
+        verify(userRepository, times(1)).existsByUsername(registerUserDTO.getUsuario());
         verifyNoInteractions(passwordEncoder);
         verifyNoInteractions(roleRepository);
         verify(userRepository, times(0)).save(any(User.class));
@@ -99,12 +99,12 @@ class UserServiceImplTest {
     @Test
     void registerUserFail() {
         RegisterUserDTO registerUserDTO = new RegisterUserDTO();
-        registerUserDTO.setUsername("usuarioteste");
-        registerUserDTO.setPassword("senha123");
-        registerUserDTO.setRoles(Set.of(Roles.USER));
+        registerUserDTO.setUsuario("usuarioteste");
+        registerUserDTO.setSenha("senha123");
+        registerUserDTO.setCargos(Set.of(Roles.USER));
 
-        when(userRepository.existsByUsername(registerUserDTO.getUsername())).thenReturn(false);
-        when(passwordEncoder.encode(registerUserDTO.getPassword())).thenReturn("senhacriptografada");
+        when(userRepository.existsByUsername(registerUserDTO.getUsuario())).thenReturn(false);
+        when(passwordEncoder.encode(registerUserDTO.getSenha())).thenReturn("senhacriptografada");
         when(userRepository.save(any(User.class))).thenThrow(new RuntimeException("Erro ao salvar no banco de dados"));
 
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {
@@ -113,8 +113,8 @@ class UserServiceImplTest {
 
         assertEquals("Erro ao salvar no banco de dados", exception.getMessage());
 
-        verify(userRepository, times(1)).existsByUsername(registerUserDTO.getUsername());
-        verify(passwordEncoder, times(1)).encode(registerUserDTO.getPassword());
+        verify(userRepository, times(1)).existsByUsername(registerUserDTO.getUsuario());
+        verify(passwordEncoder, times(1)).encode(registerUserDTO.getSenha());
         verify(userRepository, times(1)).save(any(User.class));
     }
 }
