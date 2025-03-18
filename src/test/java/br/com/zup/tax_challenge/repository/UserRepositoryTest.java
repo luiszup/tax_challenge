@@ -17,14 +17,14 @@ class UserRepositoryTest {
     @Test
     public void findUsernameSuccess() {
         User user = new User();
-        user.setUsername("usuarioteste");
-        user.setPassword("senha123");
+        user.setUsuario("usuarioteste");
+        user.setSenha("senha123");
         userRepository.save(user);
 
         Optional<User> foundUser = userRepository.findByUsername("usuarioteste");
 
         assertTrue(foundUser.isPresent());
-        assertEquals("usuarioteste", foundUser.get().getUsername());
+        assertEquals("usuarioteste", foundUser.get().getUsuario());
     }
 
     @Test
@@ -36,8 +36,8 @@ class UserRepositoryTest {
     @Test
     void existByUsernameSuccess() {
         User user = new User();
-        user.setUsername("testuser");
-        user.setPassword("password123");
+        user.setUsuario("testuser");
+        user.setSenha("password123");
         userRepository.save(user);
 
         boolean exists = userRepository.existsByUsername("testuser");

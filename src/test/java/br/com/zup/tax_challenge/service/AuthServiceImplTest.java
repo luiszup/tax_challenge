@@ -38,8 +38,8 @@ class AuthServiceImplTest {
     @Test
     void loginSuccess() {
         LoginDTO loginDTO = new LoginDTO();
-        loginDTO.setUsername("usuarioteste");
-        loginDTO.setPassword("senha123");
+        loginDTO.setUsuario("usuarioteste");
+        loginDTO.setSenha("senha123");
 
         String expectedToken = "token-teste";
 
@@ -62,8 +62,8 @@ class AuthServiceImplTest {
     @Test
     void loginFail() {
         LoginDTO loginDTO = new LoginDTO();
-        loginDTO.setUsername("usuarioteste");
-        loginDTO.setPassword("senhaerrada");
+        loginDTO.setUsuario("usuarioteste");
+        loginDTO.setSenha("senhaerrada");
 
         when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class)))
                 .thenThrow(new RuntimeException("Autenticação falhou"));

@@ -6,31 +6,31 @@ import java.util.Set;
 
 @Data
 public class RegisterUserDTO {
-    private String username;
-    private String password;
-    private Set<Roles> roles;
+    private String usuario;
+    private String senha;
+    private Set<Roles> cargos;
 
-    public String getUsername() {
-        return username;
+    public String getUsuario() {
+        return usuario;
     }
 
-    public String getPassword() {
-        return password;
+    public String getSenha() {
+        return senha;
     }
 
-    public Set<Roles> getRoles() {
-        return roles;
+    public Set<Roles> getCargos() {
+        return cargos;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
-    public void setRoles(Set<Roles> roles) {
-        this.roles = roles;
+    public void setCargos(Set<Roles> cargos) {
+        this.cargos = cargos;
     }
 }

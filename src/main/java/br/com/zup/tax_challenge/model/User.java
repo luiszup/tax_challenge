@@ -14,21 +14,21 @@ public class User {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String username;
+    private String usuario;
 
     @Column(nullable = false)
-    private String password;
+    private String senha;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
     )
-    private Set<Role> roles;
+    private Set<Role> cargos;
 
-    public User(String password, String username) {
-        this.password = password;
-        this.username = username;
+    public User(String senha, String usuario) {
+        this.senha = senha;
+        this.usuario = usuario;
     }
 
     public User() {
@@ -38,27 +38,27 @@ public class User {
         return id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUsuario() {
+        return usuario;
     }
 
-    public String getPassword() {
-        return password;
+    public String getSenha() {
+        return senha;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public Set<Role> getCargos() {
+        return cargos;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setCargos(Set<Role> cargos) {
+        this.cargos = cargos;
     }
 }

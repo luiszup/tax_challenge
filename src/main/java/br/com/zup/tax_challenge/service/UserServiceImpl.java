@@ -25,19 +25,19 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User registerUser(RegisterUserDTO registerUserDTO) {
-        if (userRepository.existsByUsername(registerUserDTO.getUsername())) {
+        if (userRepository.existsByUsername(registerUserDTO.getUsuario())) {
             throw new RuntimeException("O usuário já existe");
         }
 
         User user = new User();
-        user.setUsername(registerUserDTO.getUsername());
-        user.setPassword(passwordEncoder.encode(registerUserDTO.getPassword()));
+        user.setUsuario(registerUserDTO.getUsuario());
+        user.setSenha(passwordEncoder.encode(registerUserDTO.getSenha()));
 
-        Set<Role> roles = registerUserDTO.getRoles().stream()
+        Set<Role> roles = registerUserDTO.getCargos().stream()
                 .map(r -> new Role(r.name())).collect(Collectors.toSet());
         roleRepository.saveAll(roles);
 
-        user.setRoles(roles);
+        user.setCargos(roles);
         User savedUser = userRepository.save(user);
 
         return savedUser;
