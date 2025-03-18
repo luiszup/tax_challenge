@@ -129,17 +129,17 @@ Este projeto consiste em uma API RESTful para gerenciar e calcular impostos no B
 - **Entrada**:
     ```json
     {
-        "username": "usuario123",
-        "password": "senhaSegura",
-        "roles": ["USER"]
+        "usuario": "usuario123",
+        "senha": "senhaSegura",
+        "cargos": ["USER"]
     }
     ```
 - **Resposta**:
     ```json
     {
         "id": 1,
-        "username": "usuario123",
-        "roles": ["USER"]
+        "usuario": "usuario123",
+        "cargos": ["USER"]
     }
     ```
 
@@ -148,8 +148,8 @@ Este projeto consiste em uma API RESTful para gerenciar e calcular impostos no B
 - **Entrada**:
     ```json
     {
-        "username": "usuario123",
-        "password": "senhaSegura"
+        "usuario": "usuario123",
+        "senha": "senhaSegura"
     }
     ```
 - **Resposta**:
