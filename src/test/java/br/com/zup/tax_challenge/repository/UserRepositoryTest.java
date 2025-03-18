@@ -21,7 +21,7 @@ class UserRepositoryTest {
         user.setSenha("senha123");
         userRepository.save(user);
 
-        Optional<User> foundUser = userRepository.findByUsername("usuarioteste");
+        Optional<User> foundUser = userRepository.findByUsuario("usuarioteste");
 
         assertTrue(foundUser.isPresent());
         assertEquals("usuarioteste", foundUser.get().getUsuario());
@@ -29,7 +29,7 @@ class UserRepositoryTest {
 
     @Test
     void findUsernameFail() {
-        Optional<User> foundUser = userRepository.findByUsername("usuario-que-nao-existe");
+        Optional<User> foundUser = userRepository.findByUsuario("usuario-que-nao-existe");
         assertFalse(foundUser.isPresent());
     }
 
@@ -40,14 +40,14 @@ class UserRepositoryTest {
         user.setSenha("password123");
         userRepository.save(user);
 
-        boolean exists = userRepository.existsByUsername("testuser");
+        boolean exists = userRepository.existsByUsuario("testuser");
 
         assertTrue(exists);
     }
 
     @Test
     void existByUsernameFail() {
-        boolean exists = userRepository.existsByUsername("usuario-que-nao-existe");
+        boolean exists = userRepository.existsByUsuario("usuario-que-nao-existe");
 
         assertFalse(exists);
     }
