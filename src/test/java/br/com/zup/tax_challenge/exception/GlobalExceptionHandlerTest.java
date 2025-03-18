@@ -11,6 +11,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 import java.util.Map;
 
@@ -79,5 +80,18 @@ class GlobalExceptionHandlerTest {
         assertNotNull(response);
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         assertEquals("Erro interno: Erro interno", response.getBody());
+    }
+
+    @Test
+    void handleAccessDeniedException() {
+        AccessDeniedException exception = new AccessDeniedException("Acesso negado ao recurso");
+        ResponseEntity<Map<String, Object>> response = globalExceptionHandler.handleAccesDeniedException(exception);
+
+        assertNotNull(response);
+        assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals(403, response.getBody().get("status"));
+        assertEquals("Acesso negado", response.getBody().get("error"));
+        assertEquals("Acesso negado ao recurso", response.getBody().get("message"));
     }
 }
