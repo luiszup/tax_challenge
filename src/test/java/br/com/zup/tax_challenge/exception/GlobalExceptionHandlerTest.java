@@ -94,4 +94,14 @@ class GlobalExceptionHandlerTest {
         assertEquals("Acesso negado", response.getBody().get("error"));
         assertEquals("Acesso negado ao recurso", response.getBody().get("message"));
     }
+
+    @Test
+    void handleGenericException() {
+        Exception exception = new Exception("Erro genérico");
+        ResponseEntity<String> response = globalExceptionHandler.handleGenericException(exception);
+
+        assertNotNull(response);
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+        assertEquals("Erro inesperado: Erro genérico", response.getBody());
+    }
 }
