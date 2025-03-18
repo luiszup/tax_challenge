@@ -70,4 +70,14 @@ class GlobalExceptionHandlerTest {
         assertEquals(404, response.getBody().get("status"));
         assertEquals("Recurso não encontrado", response.getBody().get("error"));
     }
+
+    @Test
+    void handleRuntimeException() {
+        RuntimeException exception = new RuntimeException("Erro interno");
+        ResponseEntity<String> response = globalExceptionHandler.handleRuntimeException(exception);
+
+        assertNotNull(response);
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+        assertEquals("Erro interno: Erro interno", response.getBody());
+    }
 }
