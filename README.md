@@ -124,7 +124,7 @@ Este projeto consiste em uma API RESTful para gerenciar e calcular impostos no B
 
 ### **3. Segurança**
 
-#### `POST /user/registrar`
+#### `POST /usuario/registrar`
 - **Descrição**: Registra um novo usuário no sistema.
 - **Entrada**:
     ```json
@@ -143,7 +143,7 @@ Este projeto consiste em uma API RESTful para gerenciar e calcular impostos no B
     }
     ```
 
-#### `POST /user/login`
+#### `POST /usuario/login`
 - **Descrição**: Autentica um usuário e gera um token JWT.
 - **Entrada**:
     ```json
