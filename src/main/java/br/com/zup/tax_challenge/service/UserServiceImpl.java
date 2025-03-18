@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User registerUser(RegisterUserDTO registerUserDTO) {
-        if (userRepository.existsByUsername(registerUserDTO.getUsuario())) {
+        if (userRepository.existsByUsuario(registerUserDTO.getUsuario())) {
             throw new RuntimeException("O usuário já existe");
         }
 
