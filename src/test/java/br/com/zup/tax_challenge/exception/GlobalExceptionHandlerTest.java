@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Map;
@@ -56,5 +57,17 @@ class GlobalExceptionHandlerTest {
         assertEquals(2, errors.size());
         assertEquals("Mensagem de erro 1", errors.get("field1"));
         assertEquals("Mensagem de erro 2", errors.get("field2"));
+    }
+
+    @Test
+    void handleResponseStatusException() {
+        ResponseStatusException exception = new ResponseStatusException(HttpStatus.NOT_FOUND, "Recurso não encontrado");
+        ResponseEntity<Map<String, Object>> response = globalExceptionHandler.handleResponseStatusException(exception);
+
+        assertNotNull(response);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals(404, response.getBody().get("status"));
+        assertEquals("Recurso não encontrado", response.getBody().get("error"));
     }
 }
