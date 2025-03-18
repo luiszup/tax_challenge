@@ -35,7 +35,6 @@ Este projeto consiste em uma API RESTful para gerenciar e calcular impostos no B
 - **JPA/Hibernate**
 - **H2 Database (para desenvolvimento e testes)**
 - **JUnit 5**
-- **Swagger/OpenAPI**
 
 ---
 
