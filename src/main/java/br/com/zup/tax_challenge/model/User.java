@@ -50,6 +50,10 @@ public class User {
         return cargos;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public void setUsuario(String usuario) {
         this.usuario = usuario;
     }
