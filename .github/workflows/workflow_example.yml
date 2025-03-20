@@ -1,0 +1,28 @@
+name: Python Hello World Workflow
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  run-python-script:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.12
+
+      - name: Create Python script
+        run: |
+          echo 'print("Hello, World!")' > hello_world.py # Cria o script Python
+
+      - name: Run Python script
+        run: |
+          python hello_world.py # Executa o script Python
