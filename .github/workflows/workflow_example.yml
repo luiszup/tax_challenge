@@ -21,7 +21,7 @@ jobs:
 
       - name: Create Python script
         run: |
-          echo 'print("Hello, World!")' > hello_world.py # Cria o script Python
+          echo 'print("Hello, World!")' > hello_world.py
 
       - name: Run Python script
         run: |
