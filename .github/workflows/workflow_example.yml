@@ -30,4 +30,4 @@ jobs:
             ${{ runner.os }}-maven-
             
       - name: Build and run tests
-        run: mvn clean test -e -X
+        run: mvn clean test -Dspring.profiles.activate.test -e -X
