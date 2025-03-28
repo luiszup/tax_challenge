@@ -1,28 +1,33 @@
-name: Python Hello World Workflow
+name: Run Unit Tests Workflow
 
 on:
   push:
     branches:
       - main
-  workflow_dispatch:
+  pull_request:
 
 jobs:
-  run-python-script:
+  test:
+    name: Run Unit Tests
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Set Up JDK
+        uses: actions/setup-java@v3
         with:
-          python-version: 3.12
+          distribution: 'temurin'
+          java-version: '17'
 
-      - name: Create Python script
-        run: |
-          echo 'print("Hello, World!")' > hello_world.py
-
-      - name: Run Python script
-        run: |
-          python hello_world.py # Executa o script Python
+      - name: Cache Maven dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+            
+      - name: Build and run tests
+        run: mvn clean test
